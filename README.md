@@ -44,6 +44,6 @@ Python, pandas, numpy, matplotlib, seaborn, scipy, statsmodels
 
 ## Notes
 This was completed as a self-directed project while transitioning into data
-analytics from a background in FMCG sales — as a first step in building
-applied statistical and analytical skills rather than a finished, expert
-analysis.
+analytics from a background in retail/consumer sales — as a first step in
+building applied statistical and analytical skills rather than a finished,
+expert analysis.
