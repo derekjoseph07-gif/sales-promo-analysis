@@ -1,49 +1,54 @@
-# FMCG Promotion Impact & Demand Forecast
+# FMCG Promotion Impact and Demand Forecast
 
-## Business Question
-Are Rossmann's store promotions actually driving incremental sales, and does
-the effect vary enough by store segment to recommend targeting promotional
-spend more selectively?
+Analysis of Rossmann store promotions using the Kaggle Rossmann Store Sales dataset. The project tests whether promotions drive incremental sales, how the effect differs across store segments, and what that means for August 2015 demand.
+
+## Business question
+
+Do store promotions drive incremental sales, and does the effect vary enough by store segment to justify targeting promotional spend more selectively?
 
 ## Data
-Rossmann Store Sales dataset (Kaggle) — daily sales data merged with store-level
-metadata (type, assortment, competition distance, secondary promotion details).
+
+Daily store-level sales merged with store metadata: store type, assortment, competition distance and secondary promotion (Promo2) details.
 
 ## Approach
-Cleaned and merged sales and store data, engineered a feature to correctly flag
-when each store's secondary promotion was actually active, ran a hypothesis
-test to confirm the promo effect, built a regression to quantify it while
-controlling for other factors, segmented the effect by store type and
-assortment, and built two independent forecasts for near-term demand.
 
-## EDA Summary
-- Promo run 44% of the time, Promo2 15% of the time
-- Daily Sales — right skewed, clustering between 5k-7k
-- Store type b has a higher median than others
-- Promo v Non-Promo — 8200 vs 5900
+1. Cleaned and merged the sales and store tables.
+2. Built a feature to flag when each store's secondary promotion was actually active on a given day, rather than just enrolled.
+3. Tested the promotion effect with a hypothesis test.
+4. Fitted a regression to quantify the effect while controlling for other factors.
+5. Segmented the promotion effect by store type and assortment.
+6. Produced two independent forecasts for August 2015.
 
-## Results
-1. Promos are found to be run 44% of the time from the Train data. During Non Promo v Promo periods, there is a lift to 8200 from 5900 sales per store, which is a ~38% lift.
-2. Hypothesis t-test testing was done to show there is a statistically meaningful difference in Non Promo v Promo periods.
-3. After a regression model was run, it was shown Promo has a strong effect on sales, but the effect is not similar. Assortment b stores respond weakly to Promos (only ~7% lift, vs 36-43% for Assortment a and c). Store type B has the highest base revenues but lowest proportional increment during Promos.
-4. A hand-built formula for seasonal growth forecast showed 178 mil sales for Aug 2015, where the base is taken as Aug 2014 which had 163 mil (monthly total, scaled up by recent growth trend).
-5. Regression-based prediction is used to calculate extremes — zero promotional activity on all days vs full month promotional activities run — and the range is 207 mil to 285 mil for Aug 2015.
+## Findings
 
-**Additional notes:**
-- Store b, Assortment c has a small sample of store-days — in total, type b has a much smaller number of stores overall
-- Type B has the smallest relative promo lift (18%) and the highest baseline sales
-- Assortment b shows a weaker promotional response (7% lift) than Assortment a or c (36-43% lift), across all store types
+Promotions run on about 44% of store-days, and Promo2 on about 15%. Daily sales are right-skewed and cluster between 5k and 7k. Store type b has a higher median than the other types.
+
+Average sales per store are 8,200 on promotion days against 5,900 on non-promotion days, a lift of roughly 38%. A t-test confirmed the difference between the two groups is statistically significant.
+
+The regression shows a strong promotion effect, but it is uneven across segments:
+
+- Assortment b stores respond weakly, with a lift of about 7%, compared with 36-43% for assortments a and c. This holds across all store types.
+- Store type b has the highest baseline sales but the lowest proportional lift from promotions (about 18%).
+- Store type b with assortment c has few store-days, and type b has far fewer stores overall, so those estimates are less reliable.
+
+Forecasts for August 2015:
+
+- A seasonal growth formula takes August 2014 (163M in monthly sales) and scales it by the recent growth trend, giving about 178M.
+- Regression-based scenarios give a range of 207M (no promotions on any day) to 285M (promotions on every day). These are bounds, not a central forecast.
 
 ## Recommendations
-There is a confirmed and significant positive effect of the promo being run, and it should be continued to increase sales. However, the varying response by assortment and store types suggests that the budget can be used more efficiently. Assortment b should be a low priority, while channeling larger budgets for stores carrying assortment a & c. Similarly, while store type b has a higher baseline revenue, store types a, c, d should be given higher priority in promotion allocations.
 
-**Note:** These recommendations are based on a linear regression with an R² of ~0.19, meaning other unmeasured factors also meaningfully influence sales — further analysis would strengthen confidence before large-scale budget reallocation.
+Promotions should continue, since the effect on sales is positive and significant. The variation by segment suggests spend can be allocated more efficiently:
+
+- Treat assortment b as lower priority and direct larger promotional budgets to stores carrying assortments a and c.
+- Although store type b has the highest baseline revenue, types a, c and d should be prioritised for promotion allocation.
+
+## Limitations
+
+- The regression has an R² of about 0.19, so other unmeasured factors influence sales substantially. Further analysis is needed before any large reallocation of budget.
+- The seasonal estimate (178M) is below the no-promotion scenario (207M). The gap was not investigated, and the two methods should not be treated as directly comparable.
+- Segment results for small groups, such as type b with assortment c, are based on limited data.
 
 ## Tools
-Python, pandas, numpy, matplotlib, seaborn, scipy, statsmodels
 
-## Notes
-This was completed as a self-directed project while transitioning into data
-analytics from a background in retail/consumer sales — as a first step in
-building applied statistical and analytical skills rather than a finished,
-expert analysis.
+Python, pandas, numpy, matplotlib, seaborn, scipy, statsmodels
