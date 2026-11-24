@@ -1,4 +1,4 @@
-# FMCG Promotion Impact and Demand Forecast
+# Rossman Promotion Impact and Demand Forecast
 
 Analysis of Rossmann store promotions using the Kaggle Rossmann Store Sales dataset. The project tests whether promotions drive incremental sales, how the effect differs across store segments, and what that means for August 2015 demand.
 
